@@ -1,0 +1,387 @@
+{
+  "name": "Data Scrapper",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        48
+      ],
+      "id": "5dcf074c-9eb6-468c-bd84-35b2b54141d3",
+      "name": "When chat message received",
+      "webhookId": "webhook-chat-msg"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an instruction parser for an AI lead scraping system.\nTake the following user request and convert it to a JSON with the following fields:\n- \"platform\": the source website or platform mentioned\n- \"roles\": an array of job roles to search for\n- \"leadCount\": number of leads to extract (if not found, assume 10)\n- \"filters\": additional constraints like email, LinkedIn URL, etc.\n- \"location\": add the location if given \nIf any field is missing in the instruction, make your best guess.\nRespond ONLY with the JSON. Do not explain.\nUser request:\n\"{{ $json.chatInput }}\""
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        816,
+        48
+      ],
+      "id": "57aed9cc-cae1-4886-8a81-4c8fb9b3f954",
+      "name": "Massage to json"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawString = items[0].json.text;\nconst startIndex = rawString.indexOf('{');\nconst endIndex = rawString.lastIndexOf('}') + 1;\nif (startIndex === -1 || endIndex === -1) throw new Error('Invalid JSON string.');\nconst jsonOnly = rawString.substring(startIndex, endIndex);\nreturn [{ json: JSON.parse(jsonOnly) }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        48
+      ],
+      "id": "dfe70273-91de-41da-b41d-c51d2b22e9ba",
+      "name": "Parser"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json;\nconst platform = (input.platform || '').toLowerCase();\nconst roles = input.roles || [];\nconst quotedRoles = roles.map(role => `\"${role}\"`).join(\" OR \" );\nlet searchQuery = '';\nif (platform === 'linkedin') searchQuery = `site:linkedin.com/in (${quotedRoles})`;\nelse if (platform === 'twitter') searchQuery = `site:twitter.com (${quotedRoles})`;\nelse searchQuery = `(${quotedRoles})`;\nreturn [{ json: { searchQuery, leadCount: input.leadCount || 10, platform } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1376,
+        48
+      ],
+      "id": "30427a63-0833-4290-bae5-cf08723b8a12",
+      "name": "query"
+    },
+    {
+      "parameters": {
+        "url": "=https://serpapi.com/search.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "=google"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.searchQuery }}"
+            },
+            {
+              "name": "api_key",
+              "value": "3bfbf5f3e3ea2cd3c1138960f5475df2232408bd26cc90593880efd0bddc2603"
+            },
+            {
+              "name": "num",
+              "value": "={{ $json.leadCount }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1568,
+        48
+      ],
+      "id": "61d69a92-f546-4447-9381-111335225aae",
+      "name": "SerpAPI"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        48
+      ],
+      "id": "6c2a3cb3-b3bd-4ec0-9540-e21257fa2c71",
+      "name": "formatter"
+    },
+    {
+      "parameters": {
+        "model": "llama3:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        832,
+        240
+      ],
+      "id": "12ca1b7b-654d-4dde-8c22-ad1ac7535f38",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "qo0wrMYjdDvi69Q3",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1aUXt8fE4r0ghFcFrUkpmCaOVZaIM0DAA9xts0NpiY7Q",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "search_metadata",
+              "displayName": "search_metadata",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "search_parameters",
+              "displayName": "search_parameters",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "search_information",
+              "displayName": "search_information",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "available_on",
+              "displayName": "available_on",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "knowledge_graph",
+              "displayName": "knowledge_graph",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "inline_videos",
+              "displayName": "inline_videos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "related_questions",
+              "displayName": "related_questions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai_overview",
+              "displayName": "ai_overview",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "organic_results",
+              "displayName": "organic_results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "related_searches",
+              "displayName": "related_searches",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "pagination",
+              "displayName": "pagination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "serpapi_pagination",
+              "displayName": "serpapi_pagination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "myNewField",
+              "displayName": "myNewField",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2016,
+        48
+      ],
+      "id": "7f6819c2-755b-44f1-958a-eecb8ba27b64",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cL3Xb2kePEAjp22D",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Massage to json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Massage to json": {
+      "main": [
+        [
+          {
+            "node": "Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser": {
+      "main": [
+        [
+          {
+            "node": "query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "query": {
+      "main": [
+        [
+          {
+            "node": "SerpAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "main": [
+        [
+          {
+            "node": "formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formatter": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Massage to json",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d4b6f6b7-1ba6-4f77-8d1c-b00635d61024",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ff3fc446c8e7e5a30c11bf9e00828efa9738b83c57584b8e2e1ccd62369c39d6"
+  },
+  "id": "hNtAbcofRGWGD1An",
+  "tags": []
+}
