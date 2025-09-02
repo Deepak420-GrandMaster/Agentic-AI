@@ -1,0 +1,453 @@
+{
+  "name": "SDR",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1hPaRoR-JZcldS_gfTm3_o146iNc9nKQF4l_V-svQ6qs",
+          "mode": "list",
+          "cachedResultName": "Linkdin Outreach (solar)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hPaRoR-JZcldS_gfTm3_o146iNc9nKQF4l_V-svQ6qs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1453550326,
+          "mode": "list",
+          "cachedResultName": "Scraped Leads - Google",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hPaRoR-JZcldS_gfTm3_o146iNc9nKQF4l_V-svQ6qs/edit#gid=1453550326"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.row_number }}",
+            "Enriched": "Yes",
+            "Company Name": "={{ $json.company_name }}",
+            "Location": "={{ $json.location }}",
+            "Customer": "={{ $json.client }}",
+            "Status": "New"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Role",
+              "displayName": "Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Linkedin URL",
+              "displayName": "Linkedin URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "More info",
+              "displayName": "More info",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Profile photo",
+              "displayName": "Profile photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Enriched",
+              "displayName": "Enriched",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer",
+              "displayName": "Customer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        720,
+        20
+      ],
+      "id": "c6d26c94-09b2-4767-b798-5460652f3293",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "tY0FJBuJ7JTKB0im",
+          "name": "N8n X Google"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "055f81b6-5bc9-4e41-833d-590148aa5802",
+              "name": "row_number",
+              "value": "={{ $('Google Sheets').item.json.row_number }}",
+              "type": "string"
+            },
+            {
+              "id": "010708d3-175f-4bbe-8aa4-0a832e8d0311",
+              "name": "company_name",
+              "value": "={{ $json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "91ab91cd-a7bf-428b-8b08-c3aea66c6c64",
+              "name": "location",
+              "value": "={{ $json.location }}",
+              "type": "string"
+            },
+            {
+              "id": "29a6d86e-1f8c-4ecd-a26e-01207aa103a3",
+              "name": "client",
+              "value": "={{ $json.client_status }}",
+              "type": "string"
+            },
+            {
+              "id": "4b17c7f3-4925-4797-9865-5a00f7b383a1",
+              "name": "role",
+              "value": "={{ $json.role }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        -220
+      ],
+      "id": "de1dd3db-b21f-4c89-9858-1b65bc552f60",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get data from previous node\nconst agentOutput = $input.all();\nconst outputString = agentOutput[0].json.output;\n\n// Clean and parse the JSON\nconst jsonString = outputString.replace(/```json\\n?|```/g, '').replace(/json\\n?|/g, '').trim();\nconst data = JSON.parse(jsonString);\n\n// Extract fields\nconst companyName = data.company_name;\nconst location = data.location;\nconst role = data.role;\nconst clientStatus = data.client_status;\n\n// Return for next node\nreturn [\n    {\n        json: {\n            company_name: companyName,\n            location: location,\n            role: role,\n            client_status: clientStatus,\n        }\n    }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        600,
+        -220
+      ],
+      "id": "2350f30d-cde6-4d09-bda4-a4dde3a638dd",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Role : {{ $json.Role }}\n\nProfile summary : {{ $json['More info'] }}\n\n",
+        "options": {
+          "systemMessage": "=From the provided Linkdin profile summary & Role, extract the following information and format it as a JSON schema:\n\nContext\nI help local solar businesses which serve residential and commercial markets from the USA to get more appointments.\n\nExtract:\n\ncompany_name : (exact name mentioned, otherwise \"Not specified\")\nlocation (if mentioned, otherwise \"Not specified\")\nrole(if mentioned, otherwise \"Not specified\")\n\nClient_status - Analyze if this person is \"Ideal\" or \"Not ideal\" for me to reach out to do business with, based on\n\nOutput format:\njson{\n  \"company_name\": \"Smart Choice Solar\",\n  \"location\": \"California, USA\",\n  \"role\":\"founder\",\n  \"client_status\": \"Ideal\"\n}\n\nNote: \nDo not include any disclaimers, emojis, explanations of your extraction process, or additional commentary beyond the requested json Output format"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        200,
+        60
+      ],
+      "id": "384cdeb5-712e-49b7-8f19-252dea695466",
+      "name": "DM agent"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        -220
+      ],
+      "id": "51c1e92a-cddc-4282-a859-b0c828b6dc26",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1hPaRoR-JZcldS_gfTm3_o146iNc9nKQF4l_V-svQ6qs",
+          "mode": "list",
+          "cachedResultName": "Linkdin Outreach (solar)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hPaRoR-JZcldS_gfTm3_o146iNc9nKQF4l_V-svQ6qs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1453550326,
+          "mode": "list",
+          "cachedResultName": "Scraped Leads - Google",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hPaRoR-JZcldS_gfTm3_o146iNc9nKQF4l_V-svQ6qs/edit#gid=1453550326"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Enriched",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        120,
+        -220
+      ],
+      "id": "b2ec7263-3130-48dd-9798-7ef9d5de850c",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "tY0FJBuJ7JTKB0im",
+          "name": "N8n X Google"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4.1",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        200,
+        260
+      ],
+      "id": "af83bc8b-1b5c-4d33-9ca2-b6733c098a62",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "RSEXGXtfXnxUwIWP",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -60,
+        40
+      ],
+      "id": "d9451f56-883a-4e04-adf9-4333f6a3ed39",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "maxItems": 50
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        340,
+        -220
+      ],
+      "id": "50c8db15-4a02-479b-a614-f3bad5812590",
+      "name": "Limit"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DM agent": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "DM agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "DM agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3f5fceb9-03ce-4380-9fa0-5381269ab5c2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "77f1d8375380ee2bc4995763b4e39528bf040d446fc3e9e5f6d802ec19784049"
+  },
+  "id": "z8RkJWlayo99NTWb",
+  "tags": []
+}
