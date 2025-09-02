@@ -1,49 +1,57 @@
-# 🧠 AI Agent Library by Deepak Prajapati
+🧠 AI Agent Library by Deepak Prajapati
 
-This repo contains powerful, ready-to-use AI agents built in **n8n** for real business use.
+This repo contains powerful, ready-to-use AI agents built in n8n for real business use.
 
 🚀 All agents come with:
-- Pre-built workflows (`.json` / `.zip`)
-- Prompt engineering templates
-- Setup instructions
-- Sticky Notes (for copy-pasting into n8n)
 
----
+Pre-built workflows (.json / .zip)
 
-## 📋 Available Agents
+Prompt engineering templates
 
-### 1. ✉️ [Email Generator Agent](./agents/email-generator-agent)
-Generates cold emails from plain-text prompts, personalizes them, and sends automatically via Gmail.
+Setup instructions
 
-### 2. 🕵️‍♂️ [Lead Scraper Agent](./agents/lead-scraper-agent)
-Scrapes targeted leads from search terms and adds them to a Google Sheet.
+Sticky Notes (for copy-pasting into n8n)
 
-### 3. 📂 [Auto Workflow Backup to Google Drive](./agents/auto-workflow-backup)
-Automatically exports and saves all your n8n workflows to Google Drive for safe backup.
+📋 Available Agents
+1. 📂 Auto-Work Flow Agent
 
-### 4. 📧 [Cold Email Agent](./agents/cold-email)
+Backs up and manages all your n8n workflows automatically.
+
+2. ✉️ Cold Email Agent
+
 Creates and sends personalized cold emails with structured prompts.
 
-### 5. 📊 [Stock Market Analysis Agent](./agents/stock-market-analysis)
-Analyzes stock data and provides insights directly inside Google Sheets or dashboards.
+3. ⚠️ Error Handler Agent
 
-### 6. 👥 [Scrape LinkedIn Agent](./agents/scrape-linkedin)
+Captures errors in workflows and sends alerts with details.
+
+4. 📧 Gmail Auto Responder
+
+Automatically replies to incoming Gmail messages with AI-generated responses.
+
+5. 🕵️‍♂️ Lead Scraper Agent
+
+Scrapes targeted leads from search terms and adds them to a Google Sheet.
+
+6. 👥 Scrape LinkedIn Agent
+
 Extracts LinkedIn profile data (name, title, company, etc.) for lead generation.
 
-### 7. 📱 [Sales Agent (Instagram & Facebook)](./agents/sales-agent)
-Automates sales outreach and engagement on Instagram and Facebook.
+7. 📱 Social Media Manager
 
-### 8. 🎙 [Voice Agent](./agents/voice-agent)
-Converts text prompts into natural-sounding voice interactions (two variants included).
+Schedules posts, manages engagement, and tracks analytics across platforms.
 
----
+8. ✅ To-Do App Agent
 
-## 🛠 How to Use
+Creates, manages, and tracks tasks in a simple to-do format.
 
-1. Clone this repo or download the `.json` / `.zip` workflow.
-2. Import it into [n8n](https://n8n.io).
-3. Paste the included Sticky Note into your canvas.
+🛠 How to Use
 
----
+Clone this repo or download the .json / .zip workflow.
+
+Import it into n8n
+.
+
+Paste the included Sticky Note into your canvas.
 
 🔥 More agents coming soon — stay tuned!
