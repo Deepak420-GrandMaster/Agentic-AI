@@ -17,18 +17,18 @@ Each agent comes with:
 
 ## 📋 Available Agents  
 
-| # | Agent | File | What It Does |
+| # | Agent | Link | What It Does |
 |---|-------|------|--------------|
-| 1 | 📂 **Auto-Work Flow Agent** | [`auto-work-flow-agent.json`](./agents/auto-work-flow-agent.json) | Automatically backs up & manages n8n workflows. |
-| 2 | ✉️ **Cold Email Agent** | [`cold-email.json`](./agents/cold-email.json) | Generates and sends AI-personalized cold emails. |
-| 3 | ⚠️ **Error Handler Agent** | [`error-handler.json`](./agents/error-handler.json) | Captures workflow errors & sends instant alerts. |
-| 4 | 📧 **Gmail Auto Responder** | [`gmail-autorespond.json`](./agents/gmail-autorespond.json) | Auto-replies to Gmail messages using AI. |
-| 5 | 🕵️‍♂️ **Lead Scraper Agent** | [`lead-scraper-agent.json`](./agents/lead-scraper-agent.json) | Scrapes targeted leads and stores in Google Sheets. |
-| 6 | 👥 **Scrape LinkedIn Agent** | [`scrape-linkedin.json`](./agents/scrape-linkedin.json) | Extracts LinkedIn data (name, title, company). |
-| 7 | 📱 **Social Media Manager** | [`socialmediamanage.json`](./agents/socialmediamanage.json) | Automates posts, engagement & analytics. |
-| 8 | ✅ **To-Do App Agent** | [`to-do.json`](./agents/to-do.json) | Creates, manages & tracks tasks in to-do format. |
-
----
+| 1 | 📂 **Auto-Work Flow Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Autowork%20flow) | Automatically backs up & manages n8n workflows. |
+| 2 | ✉️ **Cold Email Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Cold%20Email) | Generates and sends AI-personalized cold emails. |
+| 3 | ⚠️ **Error Handler Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Error%20Handler) | Captures workflow errors & sends instant alerts. |
+| 4 | 📧 **Gmail Auto Responder** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Gmail%20Auto%20Responder) | Auto-replies to Gmail messages using AI. |
+| 5 | 🕵️‍♂️ **Lead Scraper Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Lead%20scrapper) | Scrapes targeted leads and stores in Google Sheets. |
+| 6 | 👥 **Scrape LinkedIn Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Linkedin%20Scrape) | Extracts LinkedIn data (name, title, company). |
+| 7 | 📱 **Social Media Manager** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Social%20Media%20) | Automates posts, engagement & analytics. |
+| 8 | 📱 **Social Media Agents** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Social%20Media%20Agents) | Multi-agent workflows for social media automation. |
+| 9 | ✅ **To-Do App Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/To%20do%20App) | Creates, manages & tracks tasks in to-do format. |
+| 10 | 🎙 **Voice Agent** | [View Workflow](https://github.com/Deepak420-GrandMaster/Agentic-AI/tree/main/Agents/Voice%20Agent) | Converts text prompts into natural-sounding voice interactions. |
 
 ## ⚡ Quick Start  
 
