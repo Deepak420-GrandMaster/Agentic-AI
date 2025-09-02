@@ -1,0 +1,368 @@
+{
+  "name": "Auto Workflow Backup to Google Drive – Automated Export of All Your Workflows",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.name + \".json\" }} "
+        }
+      },
+      "id": "8176f1aa-5038-4453-a734-cae4d2696d87",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "position": [
+        -840,
+        560
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks"
+            }
+          ]
+        }
+      },
+      "id": "b2d9767e-1c0e-4598-bf89-f6b082114996",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -1840,
+        600
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": false,
+            "typeValidation": "loose"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "538fc29d-2693-4c62-9848-bdcaf8566909",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              },
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "={{ $('Create new folder').item.json.id }}"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "id": "3c81b498-3906-4dfb-8a44-992080054304",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        -500,
+        340
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "deleteFolder",
+        "folderNoRootId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {
+          "deletePermanently": true
+        }
+      },
+      "id": "026ca07c-a8b5-49ba-ac43-b92c75ea7b3a",
+      "name": "delete folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        -280,
+        340
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "mode": "list",
+            "value": ""
+          }
+        },
+        "options": {}
+      },
+      "id": "c2cee893-b4e4-4c29-bd04-555e86035781",
+      "name": "Get folders",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        -720,
+        340
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {},
+      "id": "0cd6431e-fde2-412e-9153-6dccd13c554e",
+      "name": "Manual trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -1840,
+        340
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "=Workflow Backups {{ $now.format('cccc t dd-MM-yyyy') }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1DHzXsjyUvDJsZssbX_kgHHLrvls3-_jA",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1DHzXsjyUvDJsZssbX_kgHHLrvls3-_jA",
+          "cachedResultName": "backup n8n"
+        },
+        "options": {}
+      },
+      "id": "9379f883-da89-4a46-9c77-f1931df79bfa",
+      "name": "Create new folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        -1640,
+        340
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "797b14e1-d7a5-455b-8105-72b4092feba4",
+      "name": "Loop ",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        -1240,
+        340
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Loop ').item.json.name + \".json\" }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new folder').item.json.id }}"
+        },
+        "options": {}
+      },
+      "id": "04147aba-35c8-409f-a3b2-9ed723987a76",
+      "name": "Upload workflow",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        -660,
+        560
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {},
+      "id": "5a50f200-54e0-4473-9acc-e6a71fbd3ff3",
+      "name": "Limit",
+      "type": "n8n-nodes-base.limit",
+      "position": [
+        -920,
+        340
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "7ba5c634-d277-438c-b087-4ba2203379a3",
+      "name": "Get n8n workflow",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        -1440,
+        340
+      ],
+      "retryOnFail": true,
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "# 🔄 Workflow Backup for n8n → Google Drive\n\nAn automated system to back up all your n8n workflows and store them as `.json` files in Google Drive.  \nPerfect for creators, teams, and agencies who want to protect their work without manual effort.\n\n---\n\n## ✨ What this workflow does\n\n- Creates a new folder in Google Drive named `Workflow Backups [date]`\n- Fetches all workflows from your n8n instance via the `n8n API`\n- Converts each workflow into a `.json` file\n- Uploads the files to the created backup folder\n- (Optionally) Deletes old backup folders to keep things tidy\n- Can run manually or automatically (e.g., weekly)\n\n---\n\n## 🛠 Requirements\n\n- A Google account with access to Google Drive\n- Connected `Google Drive OAuth2` credentials in n8n\n- Active `n8n API credentials`\n- Enabled trigger: `Manual` or `Schedule`\n\n---\n\n## ⚙️ Installation Instructions\n\n1. **Import the workflow** (`Workflow_Backup_copy.json`) into your n8n instance\n2. **Set up credentials:**\n   - Replace `Google demo` with your own `Google Drive OAuth2` in the following nodes:\n     - `Create new folder`\n     - `Get folders`\n     - `Upload workflow`\n     - `delete folder`\n   - Replace `n8n demo` with your `n8n API` credentials in `Get n8n workflow`\n3. **Replace the folder ID** in the `Create new folder` node with the target backup folder on your Drive (`folderId`)\n4. **Optional:** Configure `Schedule Trigger` to run weekly or at your preferred interval\n\n---\n\n## 📦 Workflow Structure\n\n```\nManual/Schedule Trigger\n      ↓\nCreate new folder (Google Drive)\n      ↓\nGet n8n workflows (via API)\n      ↓\nLoop through workflows\n      ↓\nConvert to .json files\n      ↓\nUpload to Drive\n      ↓\n(Optional) Delete old backup folders\n```\n\n---\n\n## ✅ Tips\n\n- Add logic to retain only the latest X backups (e.g., last 3).\n- The workflow can run fully hands-free once scheduled.\n- Want to store files elsewhere? Swap out the upload node for Dropbox, S3, etc.\n",
+        "height": 1660,
+        "width": 1320,
+        "color": 4
+      },
+      "id": "3703b8f3-d9ec-4848-9163-0ae3d4409040",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Upload workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create new folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "delete folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get folders": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual trigger": {
+      "main": [
+        [
+          {
+            "node": "Create new folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create new folder": {
+      "main": [
+        [
+          {
+            "node": "Get n8n workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop ": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload workflow": {
+      "main": [
+        [
+          {
+            "node": "Loop ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Get folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get n8n workflow": {
+      "main": [
+        [
+          {
+            "node": "Loop ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d0de453f-921e-401f-b6d4-12eb380c7f84",
+  "meta": {
+    "instanceId": "eae46237f0b03e1e21495b9d127d17ad71e5e7504c7d7b1084f9a3d34657c561"
+  },
+  "id": "fC0c5jl3Bfhhx4Iy",
+  "tags": []
+}
