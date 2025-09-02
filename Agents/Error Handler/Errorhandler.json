@@ -1,0 +1,333 @@
+{
+  "name": "error handler",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "67bc78e3-3970-4eea-a2a8-49a179b538a6",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "position": [
+        960,
+        460
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "df779712-e00b-4ef1-9a50-ebf596c174f1",
+      "name": "n8n",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        1420,
+        120
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "aq2msGekQyQtSRfX",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "workflowId": {
+          "__rl": true,
+          "value": "=",
+          "mode": "id"
+        },
+        "requestOptions": {}
+      },
+      "id": "a1b17031-ee34-4bef-b889-cf3309e0e010",
+      "name": "get error handler",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        1180,
+        120
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "aq2msGekQyQtSRfX",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "workflowObject": "={{ JSON.stringify($json) }}",
+        "requestOptions": {}
+      },
+      "id": "04d2297f-a5f9-45e4-ac6e-160e09645713",
+      "name": "n8n | update",
+      "type": "n8n-nodes-base.n8n",
+      "position": [
+        2020,
+        120
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "aq2msGekQyQtSRfX",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const data = $json\n\ndata.settings.errorWorkflow = $('get error handler').item.json.id ;\ndelete data.settings.callerPolicy;\n\nreturn {\n  id: data.id,\n  name: data.name,\n  nodes: data.nodes,\n  connections: data.connections,\n  settings: data.settings\n}"
+      },
+      "id": "66d42eb0-0f53-4ffc-ba8f-0ed32d86bc2f",
+      "name": "set fields",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1840,
+        120
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "290fd302-4e2d-44d6-8a8a-14a0b8f2c360",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.settings.errorWorkflow }}",
+              "rightValue": "=Default Error Handler"
+            },
+            {
+              "id": "2a5799e9-2030-4281-bf11-e7f9777906c5",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              },
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "={{ $('get error handler').item.json.id }}"
+            },
+            {
+              "id": "8bc4c2a0-e094-4426-8ae6-71b6e4fa9842",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.active }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0796ded3-cbdf-469a-b981-34f8255681dc",
+      "name": "active && no error handler set && not this  handler workflow",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1620,
+        120
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "sendTo": "=(your email address)",
+        "subject": "=[n8n] workflow failed:  {{ $json.workflow.name }}",
+        "message": "={{ $json.execution.url }}",
+        "options": {}
+      },
+      "id": "ccd999ff-71a0-4cf0-b629-515d208b3cb9",
+      "name": "Gmail1",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        1180,
+        460
+      ],
+      "typeVersion": 2.1,
+      "webhookId": "84c53e66-e3c6-465e-8e57-1987b3b7b81c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gC5tBV1b2itKkIZb",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Default Error Handler\n\nUpdate this to your preferred notification mechanism",
+        "height": 308.64949804469416,
+        "width": 483.4744075807993
+      },
+      "id": "7234ca2f-2304-4572-9393-48523c708bae",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        900,
+        340
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "get ID of self",
+        "height": 237,
+        "width": 233
+      },
+      "id": "fd2629a1-5657-441c-9523-711dfdb0e030",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1140,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Runs every day at midnight to update new workflows",
+        "height": 240,
+        "width": 215
+      },
+      "id": "90551ff5-a54d-4f66-b261-4f7615898dab",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        900,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "e7fb8a93-d34a-445a-b2e4-683cd6577608",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        960,
+        120
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "content": "## 1. Attach a default error handler to all active workflows",
+        "height": 80,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        900,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "cd567369-dbea-4c99-9b4c-d710041a75b2",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "n8n": {
+      "main": [
+        [
+          {
+            "node": "active && no error handler set && not this  handler workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set fields": {
+      "main": [
+        [
+          {
+            "node": "n8n | update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get error handler": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "active && no error handler set && not this  handler workflow": {
+      "main": [
+        [
+          {
+            "node": "set fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "get error handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f2f66b0c-7bb4-472b-8e16-d8970f64efa5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eae46237f0b03e1e21495b9d127d17ad71e5e7504c7d7b1084f9a3d34657c561"
+  },
+  "id": "B8HdbosQp59En4Qt",
+  "tags": []
+}
