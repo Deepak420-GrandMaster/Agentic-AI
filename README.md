@@ -1,57 +1,38 @@
-🧠 AI Agent Library by Deepak Prajapati
+# 🧠 AI Agent Library  
+by **Deepak Prajapati**  
 
-This repo contains powerful, ready-to-use AI agents built in n8n for real business use.
+![Status](https://img.shields.io/badge/Ready--to--Use-Yes-brightgreen)  
+![n8n](https://img.shields.io/badge/Built%20for-n8n-blue)  
+![License](https://img.shields.io/badge/License-MIT-lightgrey)  
 
-🚀 All agents come with:
+A curated library of **production-ready AI agents** designed in **n8n** for real business use.  
+Each agent comes with:  
 
-Pre-built workflows (.json / .zip)
+✅ Pre-built workflows (`.json` / `.zip`)  
+✅ Prompt engineering templates  
+✅ Setup instructions  
+✅ Sticky Notes (for quick copy-paste into n8n)  
 
-Prompt engineering templates
+---
 
-Setup instructions
+## 📋 Available Agents  
 
-Sticky Notes (for copy-pasting into n8n)
+| # | Agent | File | What It Does |
+|---|-------|------|--------------|
+| 1 | 📂 **Auto-Work Flow Agent** | [`auto-work-flow-agent.json`](./agents/auto-work-flow-agent.json) | Automatically backs up & manages n8n workflows. |
+| 2 | ✉️ **Cold Email Agent** | [`cold-email.json`](./agents/cold-email.json) | Generates and sends AI-personalized cold emails. |
+| 3 | ⚠️ **Error Handler Agent** | [`error-handler.json`](./agents/error-handler.json) | Captures workflow errors & sends instant alerts. |
+| 4 | 📧 **Gmail Auto Responder** | [`gmail-autorespond.json`](./agents/gmail-autorespond.json) | Auto-replies to Gmail messages using AI. |
+| 5 | 🕵️‍♂️ **Lead Scraper Agent** | [`lead-scraper-agent.json`](./agents/lead-scraper-agent.json) | Scrapes targeted leads and stores in Google Sheets. |
+| 6 | 👥 **Scrape LinkedIn Agent** | [`scrape-linkedin.json`](./agents/scrape-linkedin.json) | Extracts LinkedIn data (name, title, company). |
+| 7 | 📱 **Social Media Manager** | [`socialmediamanage.json`](./agents/socialmediamanage.json) | Automates posts, engagement & analytics. |
+| 8 | ✅ **To-Do App Agent** | [`to-do.json`](./agents/to-do.json) | Creates, manages & tracks tasks in to-do format. |
 
-📋 Available Agents
-1. 📂 Auto-Work Flow Agent
+---
 
-Backs up and manages all your n8n workflows automatically.
+## ⚡ Quick Start  
 
-2. ✉️ Cold Email Agent
-
-Creates and sends personalized cold emails with structured prompts.
-
-3. ⚠️ Error Handler Agent
-
-Captures errors in workflows and sends alerts with details.
-
-4. 📧 Gmail Auto Responder
-
-Automatically replies to incoming Gmail messages with AI-generated responses.
-
-5. 🕵️‍♂️ Lead Scraper Agent
-
-Scrapes targeted leads from search terms and adds them to a Google Sheet.
-
-6. 👥 Scrape LinkedIn Agent
-
-Extracts LinkedIn profile data (name, title, company, etc.) for lead generation.
-
-7. 📱 Social Media Manager
-
-Schedules posts, manages engagement, and tracks analytics across platforms.
-
-8. ✅ To-Do App Agent
-
-Creates, manages, and tracks tasks in a simple to-do format.
-
-🛠 How to Use
-
-Clone this repo or download the .json / .zip workflow.
-
-Import it into n8n
-.
-
-Paste the included Sticky Note into your canvas.
-
-🔥 More agents coming soon — stay tuned!
+1. **Clone this repo**  
+   ```bash
+   git clone https://github.com/yourusername/ai-agent-library.git
+   cd ai-agent-library
